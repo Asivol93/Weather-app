@@ -27,10 +27,7 @@ export const WeatherList = () => {
       method: 'GET',
     }
 
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${searchValue}&appid=da4ce88f43bcb670fa90bad02541759e`,
-      options
-    )
+    fetch(API_URL(searchValue), options)
       .then((res) => res.json())
       .then((data) => {
         if (data.cod === 200 && isNewLocation(data.id)) {
@@ -41,7 +38,7 @@ export const WeatherList = () => {
           console.log(data)
         }
       })
-    // searchValue('')
+    setSearchValue('')
   }
 
   return (
