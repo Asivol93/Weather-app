@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { SearchBar } from './SearchBar'
-import { ForcastedList } from './ForcastedList'
-import { CURRENT_WEATHER_URL } from '../utils/url'
 import dateFormat from 'dateformat'
 // const now = new Date()
 
@@ -12,46 +9,10 @@ const WeatherSection = styled.section`
   border: 1px solid black;
 `
 
-export const WeatherList = () => {
-  const [location, setLocation] = useState([])
-  const [searchValue, setSearchValue] = useState('')
-  const [error, setError] = useState('')
-
-  const isNewLocation = (locationId) => {
-    const duplicate = location.filter((item) => item.id === locationId)
-    return duplicate.length === 0
-  }
-
-  const onLocationSubmit = (event) => {
-    event.preventDefault()
-    setError('')
-
-    const options = {
-      method: 'GET',
-    }
-
-    fetch(CURRENT_WEATHER_URL(searchValue), options)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.cod === 200 && isNewLocation(data.id)) {
-          setLocation([data, ...location])
-        } else if (data.cod === '404') {
-          setError(data.message)
-        } else {
-          console.log(data)
-        }
-      })
-    setSearchValue('')
-  }
-
+export const WeatherList = ({ location, error, errorForcast }) => {
   return (
     <WeatherSection>
       <h1>Weather app</h1>
-      <SearchBar
-        onLocationSubmit={onLocationSubmit}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
       {error && <p>No location found...</p>}
       {location.map((location) => (
         <div key={location.id}>
@@ -66,10 +27,6 @@ export const WeatherList = () => {
           <p>Sunset {dateFormat(location.sys.sunset, 'UTC:h:MM:ss TT Z')}</p>
         </div>
       ))}
-      <ForcastedList
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
     </WeatherSection>
   )
 }

@@ -1,43 +1,12 @@
-import React, { useState } from 'react'
-import { FORCASTED_WEATHER_URL } from '../utils/url'
+import React from 'react'
 import dateFormat from 'dateformat'
 
-export const ForcastedList = ({ searchValue, setSearchValue }) => {
-  const [forcast, setForcast] = useState([])
-  const [error, setError] = useState('')
-
-  const isNewForcast = (forcastId) => {
-    const duplicate = forcast.filter((item) => item.id === forcastId)
-    return duplicate.length === 0
-  }
-
-  const onForcastSubmit = (event) => {
-    event.preventDefault()
-    setError('')
-
-    const options = {
-      method: 'GET',
-    }
-
-    fetch(FORCASTED_WEATHER_URL(searchValue), options)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.cod === 200 && isNewForcast(data.id)) {
-          setForcast([data, ...forcast])
-        } else if (data.cod === '404') {
-          setError(data.message)
-        } else {
-          console.log(data)
-        }
-      })
-    setSearchValue('')
-  }
-
+export const ForcastedList = ({ errorForcast, forcast }) => {
   return (
     <div>
       <h1>Forcast</h1>
 
-      {error && <p>No location found...</p>}
+      {errorForcast && <p>No location found...</p>}
       {forcast.map((location) => (
         <div key={location.id}>
           <h1>{location.list[0].dt}</h1>

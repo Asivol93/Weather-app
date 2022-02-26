@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { WeatherList } from 'components/WeatherList'
+import { MainPage } from 'components/MainPage'
 
 const OuterContainer = styled.div`
   width: 100%;
@@ -13,7 +13,7 @@ const OuterContainer = styled.div`
 export const App = () => {
   return (
     <OuterContainer>
-      <WeatherList />
+      <MainPage />
     </OuterContainer>
   )
 }
