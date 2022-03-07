@@ -17,7 +17,7 @@ export const MainPage = () => {
   }
 
   const isNewForcast = (forcastId) => {
-    const duplicate = forcast.filter((item) => item.id === forcastId)
+    const duplicate = forcast.filter((item) => item.city.id === forcastId)
     return duplicate.length === 0
   }
 
@@ -46,8 +46,14 @@ export const MainPage = () => {
     fetch(FORCASTED_WEATHER_URL(searchValue), options)
       .then((res) => res.json())
       .then((data) => {
-        if (data.cod === 200 && isNewForcast(data.id)) {
-          setForcast([data, ...forcast])
+        const filteredForcast = data.list.filter((item) =>
+          item.dt_txt.includes('12:00')
+        )
+        if (data.cod === '200' && isNewForcast(data.city.id)) {
+          setForcast(filteredForcast)
+          // console.log(filteredForcast)
+          // console.log(forcast)
+          // console.log(filteredForcast)
         } else if (data.cod === '404') {
           setErrorForcast(data.message)
         } else {
@@ -64,7 +70,11 @@ export const MainPage = () => {
         setSearchValue={setSearchValue}
       />
       <WeatherList error={error} location={location} />
-      <ForcastedList errorForcast={errorForcast} forcast={forcast} />
+      <ForcastedList
+        errorForcast={errorForcast}
+        forcast={forcast}
+        // filteredForecast={filteredForecast}
+      />
     </div>
   )
 }
