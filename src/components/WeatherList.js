@@ -1,21 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 import dateFormat from 'dateformat'
+import { WeatherConditions } from './Reusable/WeatherConditions'
 // const now = new Date()
 
 const WeatherSection = styled.section`
   width: 90%;
   height: 500px;
-  border: 1px solid black;
 `
 
 export const WeatherList = ({ location, error, errorForcast }) => {
   return (
     <WeatherSection>
-      <h1>Weather app</h1>
       {error && <p>No location found...</p>}
       {location.map((location) => (
-        <div key={location.id}>
+        <div
+          key={location.id}
+          className={WeatherConditions(
+            location.main.temp,
+            location.weather[0].main
+          )}
+        >
+          <p>{WeatherConditions(location.weather[0].main)}</p>
           <h1>{location.name}</h1>
           <h2>{location.weather[0].main}</h2>
           <p>Temperature now {Math.floor(location.main.temp - 273.15)} C</p>

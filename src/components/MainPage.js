@@ -35,10 +35,11 @@ export const MainPage = () => {
       .then((data) => {
         if (data.cod === 200 && isNewLocation(data.id)) {
           setLocation([data, ...location])
-        } else if (data.cod === '404') {
-          setError(data.message)
+          // } else if (data.cod === '404') {
+          //   setError(data.message)
         } else {
           console.log(data)
+          setError(data.message)
         }
       })
     setSearchValue('')
@@ -46,17 +47,17 @@ export const MainPage = () => {
     fetch(FORCASTED_WEATHER_URL(searchValue), options)
       .then((res) => res.json())
       .then((data) => {
-        const filteredForcast = data.list.filter((item) =>
-          item.dt_txt.includes('12:00')
-        )
-        if (data.cod === '200' && isNewForcast(data.city.id)) {
+        if (data.cod === '200') {
+          const filteredForcast = data.list.filter((item) =>
+            item.dt_txt.includes('12:00')
+          )
           setForcast(filteredForcast)
-          // console.log(filteredForcast)
-          // console.log(forcast)
-          // console.log(filteredForcast)
-        } else if (data.cod === '404') {
-          setErrorForcast(data.message)
+          console.log(data)
+          console.log(filteredForcast)
+          // } else if (data.cod === '404') {
+          //   setErrorForcast(data.message)
         } else {
+          setErrorForcast(data.message)
           console.log(data)
         }
       })
@@ -70,11 +71,7 @@ export const MainPage = () => {
         setSearchValue={setSearchValue}
       />
       <WeatherList error={error} location={location} />
-      <ForcastedList
-        errorForcast={errorForcast}
-        forcast={forcast}
-        // filteredForecast={filteredForecast}
-      />
+      <ForcastedList errorForcast={errorForcast} forcast={forcast} />
     </div>
   )
 }
