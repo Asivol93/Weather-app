@@ -1,8 +1,17 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { WeatherList } from './WeatherList'
 import { ForcastedList } from './ForcastedList'
 import { SearchBar } from './SearchBar'
 import { CURRENT_WEATHER_URL, FORCASTED_WEATHER_URL } from 'utils/url'
+
+const MainWrapper = styled.div`
+  p,
+  h1,
+  h2 {
+    color: #fff;
+  }
+`
 
 export const MainPage = () => {
   const [location, setLocation] = useState([])
@@ -34,7 +43,7 @@ export const MainPage = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.cod === 200 && isNewLocation(data.id)) {
-          setLocation([data, ...location])
+          setLocation([data])
           // } else if (data.cod === '404') {
           //   setError(data.message)
         } else {
@@ -42,7 +51,6 @@ export const MainPage = () => {
           setError(data.message)
         }
       })
-    setSearchValue('')
 
     fetch(FORCASTED_WEATHER_URL(searchValue), options)
       .then((res) => res.json())
@@ -64,7 +72,7 @@ export const MainPage = () => {
     setSearchValue('')
   }
   return (
-    <div>
+    <MainWrapper>
       <SearchBar
         onLocationSubmit={onLocationSubmit}
         searchValue={searchValue}
@@ -72,6 +80,6 @@ export const MainPage = () => {
       />
       <WeatherList error={error} location={location} />
       <ForcastedList errorForcast={errorForcast} forcast={forcast} />
-    </div>
+    </MainWrapper>
   )
 }

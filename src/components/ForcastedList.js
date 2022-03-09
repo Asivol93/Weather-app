@@ -1,9 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import dateFormat from 'dateformat'
+import { WeatherConditions } from './Reusable/WeatherConditions'
 
 const ForcastCard = styled.div`
-  border: 2px solid black;
+  display: flex;
+  justify-content: space-evenly;
+
+  img {
+    width: 40px;
+    height: 40px;
+    /* filter: drop-shadow(0 0 2.5rem white); */
+  }
+  p {
+    font-size: 12px;
+  }
 `
 
 export const ForcastedList = ({ errorForcast, forcast }) => {
@@ -18,10 +29,12 @@ export const ForcastedList = ({ errorForcast, forcast }) => {
       {errorForcast && <p>No location found...</p>}
       {forcast.map((location) => (
         <ForcastCard key={location.dt}>
-          <p>{dateFormat(location.dt * 1000, 'dddd')}</p>
+          <p>{dateFormat(location.dt * 1000, 'ddd')}</p>
+
           <p>{location.weather[0].main}</p>
+          {/* <img src={WeatherConditions(location.weather[0].main)} /> */}
           <p>{Math.floor(location.main.temp - 273.15)} C</p>
-          <p>Wind {location.wind.speed} m/s</p>
+          <p>{location.wind.speed} m/s</p>
           <p>Humidity {location.main.humidity}%</p>
         </ForcastCard>
       ))}
