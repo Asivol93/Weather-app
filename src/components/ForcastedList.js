@@ -3,9 +3,24 @@ import styled from 'styled-components'
 import dateFormat from 'dateformat'
 import { WeatherConditions } from './Reusable/WeatherConditions'
 
+const ForcastSection = styled.section`
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  /* justify-content: center; */
+  /* align-items: center; */
+
+  h1 {
+    align-self: center;
+  }
+`
+
 const ForcastCard = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  margin: 5px;
 
   img {
     width: 40px;
@@ -14,6 +29,7 @@ const ForcastCard = styled.div`
   }
   p {
     font-size: 12px;
+    width: 25%;
   }
 `
 
@@ -23,7 +39,7 @@ export const ForcastedList = ({ errorForcast, forcast }) => {
   // )
   // console.log(filteredForcast)
   return (
-    <div>
+    <ForcastSection>
       <h1>Forcast</h1>
 
       {errorForcast && <p>No location found...</p>}
@@ -38,6 +54,6 @@ export const ForcastedList = ({ errorForcast, forcast }) => {
           <p>Humidity {location.main.humidity}%</p>
         </ForcastCard>
       ))}
-    </div>
+    </ForcastSection>
   )
 }

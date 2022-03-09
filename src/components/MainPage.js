@@ -6,6 +6,11 @@ import { SearchBar } from './SearchBar'
 import { CURRENT_WEATHER_URL, FORCASTED_WEATHER_URL } from 'utils/url'
 
 const MainWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   p,
   h1,
   h2 {
@@ -22,11 +27,6 @@ export const MainPage = () => {
 
   const isNewLocation = (locationId) => {
     const duplicate = location.filter((item) => item.id === locationId)
-    return duplicate.length === 0
-  }
-
-  const isNewForcast = (forcastId) => {
-    const duplicate = forcast.filter((item) => item.city.id === forcastId)
     return duplicate.length === 0
   }
 

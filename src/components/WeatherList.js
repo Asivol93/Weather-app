@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import dateFormat from 'dateformat'
 import { WeatherConditions } from './Reusable/WeatherConditions'
-// const now = new Date()
+import { WiSunrise, WiSunset, WiStrongWind, WiHumidity } from 'react-icons/wi'
 
 const WeatherSection = styled.section`
-  /* width: 90%; */
+  margin-top: 40px;
   height: 500px;
   display: flex;
   justify-content: center;
@@ -26,6 +26,25 @@ const WeatherOverview = styled.div`
   }
 `
 
+const DetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+`
+
+const TempWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 export const WeatherList = ({ location, error, errorForcast }) => {
   return (
     <WeatherSection>
@@ -40,15 +59,33 @@ export const WeatherList = ({ location, error, errorForcast }) => {
         >
           <h1>{location.name}</h1>
           <img src={WeatherConditions(location.weather[0].main)} />
-
           <h2>{location.weather[0].main}</h2>
-          <p>Temperature now {Math.floor(location.main.temp - 273.15)} C</p>
-          <p>Min {Math.floor(location.main.temp_min - 273.15)} C</p>
-          <p>Max {Math.floor(location.main.temp_max - 273.15)} C</p>
-          <p>Wind {location.wind.speed} m/s</p>
-          <p>Humidity {location.main.humidity}%</p>
-          <p>Sunrise {dateFormat(location.sys.sunrise, 'UTC:h:MM:ss TT Z')}</p>
-          <p>Sunset {dateFormat(location.sys.sunset, 'UTC:h:MM:ss TT Z')}</p>
+          <DetailsContainer>
+            <TempWrapper>
+              <p>Temperature now {Math.floor(location.main.temp - 273.15)} C</p>
+              <p>Min {Math.floor(location.main.temp_min - 273.15)} C</p>
+              <p>Max {Math.floor(location.main.temp_max - 273.15)} C</p>
+            </TempWrapper>
+            <div>
+              <WiStrongWind color='#fff' size={40} />
+              <p>{location.wind.speed} m/s</p>
+            </div>
+            <div>
+              <WiHumidity color='#fff' size={40} />
+              <p> {location.main.humidity}%</p>
+            </div>
+            <div>
+              <WiSunrise color='#fff' size={40} />
+              <p>
+                Sunrise {dateFormat(location.sys.sunrise, 'UTC:h:MM:ss TT Z')}
+              </p>
+
+              <WiSunset color='#fff' size={40} />
+              <p>
+                Sunset {dateFormat(location.sys.sunset, 'UTC:h:MM:ss TT Z')}
+              </p>
+            </div>
+          </DetailsContainer>
         </WeatherOverview>
       ))}
     </WeatherSection>
